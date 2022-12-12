@@ -1,0 +1,51 @@
+@use "../../master.scss";
+
+.loader-container {
+  min-height: 90%;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  .stage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    padding: 2rem 0;
+    margin: 0;
+    overflow: hidden;
+    .dot-carousel {
+      position: relative;
+      left: -9999px;
+      width: 10px;
+      height: 10px;
+      border-radius: 5px;
+      background-color: master.$primary-color;
+      color: master.$primary-color;
+      box-shadow: 9984px 0 0 0 master.$primary-color,
+        9999px 0 0 0 master.$primary-color, 10014px 0 0 0 master.$primary-color;
+      animation: dotCarousel 1.5s infinite linear;
+    }
+  }
+}
+
+@keyframes dotCarousel {
+  0% {
+    box-shadow: 9984px 0 0 -1px master.$primary-color,
+      9999px 0 0 1px master.$primary-color,
+      10014px 0 0 -1px master.$primary-color;
+  }
+  50% {
+    box-shadow: 10014px 0 0 -1px master.$primary-color,
+      9984px 0 0 -1px master.$primary-color,
+      9999px 0 0 1px master.$primary-color;
+  }
+  100% {
+    box-shadow: 9999px 0 0 1px master.$primary-color,
+      10014px 0 0 -1px master.$primary-color,
+      9984px 0 0 -1px master.$primary-color;
+  }
+}

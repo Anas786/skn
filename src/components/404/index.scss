@@ -1,0 +1,52 @@
+.Error {
+  text-align: center;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  background: url("../../assets/backgrounds/404.png") #2e3192;
+  .content {
+    width: 700px;
+    max-width: 100%;
+    h2 {
+      font-size: 18vw;
+      letter-spacing: 5px;
+      text-shadow: 6px 0 0 #fff;
+      color: #fff;
+      font-weight: 900;
+      font-family: Arial, Helvetica, sans-serif !important;
+      line-height: 0.2em;
+    }
+    h4 {
+      font-size: 1.4em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      color: #dadada;
+      font-weight: 600;
+      padding: 5px 25px;
+    }
+    p {
+      font-size: 18px;
+      font-weight: lighter;
+      margin-bottom: 10px;
+    }
+    a {
+      display: inline-block;
+      padding: 15px 35px;
+      background: #03598f;
+      color: #fff;
+      text-decoration: none;
+      margin-top: 10px;
+      border-radius: 8px;
+      text-transform: uppercase;
+      font-size: 14px;
+      font-weight: bold;
+      transition: 0.5s all;
+      &:hover {
+        background: #004977;
+      }
+    }
+  }
+}

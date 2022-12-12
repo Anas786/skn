@@ -17,6 +17,7 @@ import { ScaleLoader } from "react-spinners";
 function Notifications() {
   const { getNotifications, getUsers, users, notifications, sendNotifications } = useContext(NotificationContext);
   const [isLoading, setLoading] = useState(false);
+  const [isAllUserSelected, setAllUserSelected] = useState(false);
   const [filteredData, setFilteredData] = useState(null);
   const [isFilterOpen, setFilterOpen] = useState(false);
   const [page, setPage] = useState(1);
@@ -30,9 +31,15 @@ function Notifications() {
   const handleFormFinish = () => {
     const credentials = form.getFieldsValue();
     setLoading(true);
-    credentials.recipient_email = credentials.recipient_email.map((m) => {
-      return users.find(f=>f.id === m)
-    })
+
+    if(isAllUserSelected) {
+      credentials.recipient_email = users
+    } else {
+      credentials.recipient_email = credentials.recipient_email.map((m) => {
+        return users.find(f=>f.id === m)
+      })
+    }
+    
     sendNotifications(credentials, (res) => {
       setLoading(false);
       if (res.length > 0) {
@@ -56,6 +63,14 @@ function Notifications() {
     });
     setFilterOpen(false);
   };
+
+  const handleSelection = (e) => {
+    if(e === "all") {
+      setAllUserSelected(true)
+    } else {
+      setAllUserSelected(false)
+    }
+  }
 
   useEffect(() => {
     setLoading(true)
@@ -102,33 +117,66 @@ function Notifications() {
           className="form-input"
         />
       </Form.Item>
-      <label className="form-lbl">Recipient:</label>
+      <label className="form-lbl">Choose Option:</label>
       <Form.Item 
-        name={"recipient_email"}
+        name={"recipient_option"}
         rules={[
           {
             required: true,
-            message: "Recipient can't be empty",
+            message: "Selection can't be empty",
           },
         ]}>
         <Select
-          mode="multiple"
           allowClear
-          placeholder="Select Recipient"
-          name="recipient_email"
+          placeholder="Select Option"
+          name="recipient_option"
           className="form-select"
-          showSearch
+          onChange={handleSelection}
           filterOption={(input, option) =>
             option.children.toLowerCase().includes(input.toLowerCase())
           }
         >
-          {users.map((data, index) => (
-            <Select.Option value={data.id} key={index}>
-              {data.email}
-            </Select.Option>
-          ))}
+          <Select.Option value={"all"} key={1}>
+            All Users
+          </Select.Option>
+          <Select.Option value="multi" key={2}>
+            Selected Users
+          </Select.Option>
         </Select>
       </Form.Item>
+
+      {!isAllUserSelected && (
+        <>
+          <label className="form-lbl">Recipient:</label>
+          <Form.Item 
+            name={"recipient_email"}
+            rules={[
+              {
+                required: true,
+                message: "Recipient can't be empty",
+              },
+            ]}>
+            <Select
+              mode="multiple"
+              allowClear
+              placeholder="Select Recipient"
+              name="recipient_email"
+              className="form-select"
+              showSearch
+              filterOption={(input, option) =>
+                option.children.toLowerCase().includes(input.toLowerCase())
+              }
+            >
+              {users.map((data, index) => (
+                <Select.Option value={data.id} key={index}>
+                  {data.email}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+        </>
+      )}
+
       <Form.Item>
         <Button
           htmlType="submit"
